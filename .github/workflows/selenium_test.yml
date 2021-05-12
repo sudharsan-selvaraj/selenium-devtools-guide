@@ -14,8 +14,8 @@ jobs:
         java-version: 1.8
     - name: Install Google Chrome # Using shell script to install Google Chrome
       run: |
-       chmod +x ./scripts/InstallChrome.sh
-        ./scripts/InstallChrome.sh
+       chmod +x ./scripts/install_chrome.sh
+        ./scripts/install_chrome.sh
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew # give permission to Gradle to run the commands
     - name: Build with Gradle

@@ -4,7 +4,6 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,9 +14,6 @@ import java.time.Duration;
 
 public class SeleniumTest {
 
-    protected ChromeDriver driver;
-    protected DevTools devTools;
-
     @BeforeSuite
     public void downloadWebDriver() {
         WebDriverManager.chromedriver().setup();
@@ -25,20 +21,18 @@ public class SeleniumTest {
 
     @BeforeMethod
     public void setupWebDriver() {
-        driver = new ChromeDriver(chromeOptions());
-        devTools = driver.getDevTools();
-        devTools.createSession();
-
+        ChromeDriver driver = DriverProvider.init();
+        driver.getDevTools().createSession();
         driver.get("https://www.google.com");
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDownDriver() {
-       try {
-           driver.quit();
-       } catch (Exception e) {
-           //ignore
-       }
+        try {
+            getDriver().quit();
+        } catch (Exception e) {
+            //ignore
+        }
     }
 
     public void sleep(long millisecs) {
@@ -47,6 +41,14 @@ public class SeleniumTest {
         } catch (Exception e) {
             //ignore
         }
+    }
+
+    protected ChromeDriver getDriver() {
+        return DriverProvider.getDriver();
+    }
+
+    protected DevTools getDevTools() {
+        return getDriver().getDevTools();
     }
 
     protected String getDownloadDirectory() {
@@ -58,15 +60,7 @@ public class SeleniumTest {
     }
 
     protected WebElement findElement(By by) {
-        return new WebDriverWait(driver, Duration.ofSeconds(30))
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(30))
                 .until(ExpectedConditions.presenceOfElementLocated(by));
-    }
-
-    private ChromeOptions chromeOptions() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
-        return options;
     }
 }

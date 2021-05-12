@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>addScriptToEvaluateOnNewDocument</title>
+</head>
+<body>
+<h1 class="center" id="message"></h1>
+<script type="text/javascript">
+    function setMessage(message) {
+        document.querySelector("#message").innerText = message;
+    }
+
+    if (document.hasOwnProperty("messageFromTest")) {
+        setMessage(document.messageFromTest)
+    } else {
+        setMessage("No script injected")
+    }
+</script>
+</body>
+</html>

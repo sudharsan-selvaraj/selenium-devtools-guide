@@ -1,0 +1,22 @@
+name: Run Selenium Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Using linux machine
+
+    steps:
+    - uses: actions/checkout@v2 # Checkout the code
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1 # Setup JAVA
+      with:
+        java-version: 1.8
+    - name: Install Google Chrome # Using shell script to install Google Chrome
+      run: |
+       chmod +x ./scripts/InstallChrome.sh
+        ./scripts/InstallChrome.sh
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew # give permission to Gradle to run the commands
+    - name: Build with Gradle
+      run: ./gradlew test --info # Run our tests using Gradle

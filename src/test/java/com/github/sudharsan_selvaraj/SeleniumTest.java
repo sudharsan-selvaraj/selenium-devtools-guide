@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,7 +25,7 @@ public class SeleniumTest {
 
     @BeforeMethod
     public void setupWebDriver() {
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(chromeOptions());
         devTools = driver.getDevTools();
         devTools.createSession();
 
@@ -59,5 +60,13 @@ public class SeleniumTest {
     protected WebElement findElement(By by) {
         return new WebDriverWait(driver, Duration.ofSeconds(30))
                 .until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
+    private ChromeOptions chromeOptions() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--headless");
+        return options;
     }
 }

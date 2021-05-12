@@ -11,9 +11,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.testng.Assert.*;
@@ -202,7 +200,7 @@ public class BrowserTest extends SeleniumTest {
 
         devTools.send(
                 Browser.grantPermissions(
-                        List.of(PermissionType.AUDIOCAPTURE),
+                        Collections.singletonList(PermissionType.AUDIOCAPTURE),
                         Optional.empty(),
                         Optional.empty()
                 )
@@ -223,7 +221,7 @@ public class BrowserTest extends SeleniumTest {
         By permissionRequestButton = By.xpath(".//button[text()='Click here to allow access to microphone identifiers']");
         devTools.send(
                 Browser.grantPermissions(
-                        List.of(PermissionType.AUDIOCAPTURE),
+                        Collections.singletonList(PermissionType.AUDIOCAPTURE),
                         Optional.empty(),
                         Optional.empty()
                 )
